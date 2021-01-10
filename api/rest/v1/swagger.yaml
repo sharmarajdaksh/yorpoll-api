@@ -1,0 +1,26 @@
+swagger: "2.0"
+info:
+  description: "Yorpoll is a simple poll-generation API. Because polls should be simple."
+  version: "1.0.0"
+  title: "Yorpoll API"
+  termsOfService: "http://example.com" # TODO
+  contact:
+    email: "sharmarajdaksh@gmail.com"
+  license:
+    name: "Test License" # TODO
+    url: "http://example.com" # TODO
+host: "example.com" # TODO
+basePath: "/"
+# tags:
+schemes:
+- "https"
+paths:
+  /healthcheck:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Successfully retrieved poll"
