@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+# This script creates a new non-root mongodb user with readWrite access to the initialized database
+
 if [ -n "${MONGO_INITDB_ROOT_USERNAME:-}" ] && [ -n "${MONGO_INITDB_ROOT_PASSWORD:-}" ] && [ -n "${DATABASE_USER:-}" ] && [ -n "${DATABASE_PASSWORD:-}" ] && [ -n "${MONGO_INITDB_DATABASE:-}" ]; then
 mongo -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD<<EOF
 db=db.getSiblingDB('$MONGO_INITDB_DATABASE');
