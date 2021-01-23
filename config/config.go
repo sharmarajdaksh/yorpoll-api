@@ -74,7 +74,7 @@ func (c Config) ServerAddress() string {
 var defaults = Config{
 	Global: global{
 		Env:     dev,
-		Logfile: "log/server.log",
+		Logfile: "logs/server.log",
 	},
 	Database: database{
 		Type:        "mysql",

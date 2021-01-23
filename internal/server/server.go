@@ -30,11 +30,3 @@ func Init(c *config.Config, d db.Connection) *fiber.App {
 
 	return app
 }
-
-func registerV1Routes(r fiber.Router, d db.Connection) {
-	v1Handler := handler{dbc: d}
-	r.Get("/poll/:pollID", v1Handler.getPoll)
-	r.Post("/poll", v1Handler.postPoll)
-	r.Delete("/poll/:pollID", v1Handler.deletePoll)
-	r.Put("/vote/:pollID/:optionID", v1Handler.putVote)
-}

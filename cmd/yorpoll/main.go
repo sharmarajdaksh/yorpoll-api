@@ -14,7 +14,7 @@ func main() {
 	log.Logger.Debug().Msg("Initializing yorpoll server")
 
 	err := log.Configure(config.LogFileName())
-	checkErr(err, "failed to cconfigure logger")
+	checkErr(err, "failed to configure logger")
 	log.Logger.Debug().Str("event", "logger configured").Msg("succesfully configured logger")
 
 	conf, err := config.Init()
