@@ -1,0 +1,16 @@
+version: "3.4"
+
+services:
+  db:
+    image: "mongo:${MONGO_IMAGE_TAG}" 
+    container_name: yorpoll_mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=superadminmongoadmin
+      - MONGO_INITDB_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+    volumes:
+      - type: bind
+        source: "../${MONGO_DOCKER_SCRIPT_PATH}/${MONGO_DOCKER_SCRIPT_NAME}"
+        target: "/docker-entrypoint-initdb.d/${MONGO_DOCKER_SCRIPT_NAME}"
