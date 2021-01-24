@@ -14,7 +14,7 @@ import (
 var vldt *validator.Validate
 
 func errorHandler(c *fiber.Ctx, err error) error {
-	log.Logger.Error().Err(err).Send()
+	log.Logger.Error().Err(err).Str("requestid", c.Get(fiber.HeaderXRequestID)).Send()
 
 	// Default 500 statuscode
 	code := http.StatusInternalServerError

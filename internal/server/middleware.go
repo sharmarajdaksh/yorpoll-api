@@ -8,6 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
+	"github.com/gofiber/fiber/v2/middleware/requestid"
 )
 
 var corsMiddleware = cors.New(cors.Config{
@@ -30,7 +31,7 @@ var limiterMiddleware = limiter.New(limiter.Config{
 func loggerMiddleware(c *fiber.Ctx) error {
 	err := c.Next()
 
-	log.Logger.Info().Str("method", c.Method()).Str("path", c.Path()).Str("protocol", c.Protocol()).Str("originalUrl", c.OriginalURL()).Str("ip", c.IP()).Str("hostname", c.Hostname()).Int("statusCode", c.Response().StatusCode()).Msg("received request")
+	log.Logger.Info().Str("method", c.Method()).Str("path", c.Path()).Str("protocol", c.Protocol()).Str("originalUrl", c.OriginalURL()).Str("ip", c.IP()).Str("hostname", c.Hostname()).Int("statusCode", c.Response().StatusCode()).Str("requestID", c.Get(fiber.HeaderXRequestID)).Msg("received request")
 
 	return err
 }
@@ -39,3 +40,5 @@ func headersMiddleware(c *fiber.Ctx) error {
 	c.Set("Content-Type", "application/json")
 	return c.Next()
 }
+
+var requestIDMiddleware = requestid.New()
