@@ -14,11 +14,15 @@ func Init(c *config.Config, d db.Connection) *fiber.App {
 
 	app.Use(corsMiddleware)
 	app.Use(limiterMiddleware)
-	app.Use(headersMiddleware)
 	app.Use(loggerMiddleware)
+	app.Use(headersMiddleware)
 
 	healthCheckHandler := handler{dbc: d}
 	app.Get("/healthcheck", healthCheckHandler.healthCheck)
+
+	if c.Global.Env != config.Prod && c.Global.Env != config.Trace {
+		app.Static("/swagger", "swaggerui")
+	}
 
 	api := app.Group("/api")
 
