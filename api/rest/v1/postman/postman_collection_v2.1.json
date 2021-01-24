@@ -1,0 +1,625 @@
+{
+	"info": {
+		"_postman_id": "dcbcf260-2564-4e71-8dab-4bb6984cc0f5",
+		"name": "yorpoll-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Poll",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"my first poll\",\n    \"description\": \"this is the first poll on yorpoll\",\n    \"expiry\": 1638316800,\n    \"options\": [\n        \"This is really cool!\",\n        \"Great work!\",\n        \"I can see myself using it!\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/poll/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"poll",
+						""
+					]
+				},
+				"description": "Create a new poll with any number of options.\n- Poll title and description cannot be null or empty strings.\n- Options are basically strings of option titles, each of which must be non-empty strings.\n- There must be more than 1 options in a poll.\n- Expiry is the UNIX timestamp for poll expiry (in seconds)"
+			},
+			"response": [
+				{
+					"name": "Create Poll",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"my first poll\",\n    \"description\": \"this is the first poll on yorpoll\",\n    \"expiry\": 1638316800,\n    \"options\": [\n        \"This is really cool!\",\n        \"Great work!\",\n        \"I can see myself using it!\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/poll/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"poll",
+								""
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 24 Jan 2021 09:07:36 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "462"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "X-Ratelimit-Limit",
+							"value": "10"
+						},
+						{
+							"key": "X-Ratelimit-Remaining",
+							"value": "9"
+						},
+						{
+							"key": "X-Ratelimit-Reset",
+							"value": "1"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"e68a1864-b555-48be-ad6a-d4f740c66559\",\n    \"title\": \"my first poll\",\n    \"description\": \"this is the first poll on yorpoll\",\n    \"options\": [\n        {\n            \"id\": \"3e30fb18-0aa1-4c41-b701-68bde1d98f09\",\n            \"votes\": 0,\n            \"title\": \"This is really cool!\"\n        },\n        {\n            \"id\": \"ac8c68d5-ae69-4682-bed0-b6c9ec5163e2\",\n            \"votes\": 0,\n            \"title\": \"Great work!\"\n        },\n        {\n            \"id\": \"822d5ed8-e585-47d8-a42b-b7d40c5b65f1\",\n            \"votes\": 0,\n            \"title\": \"I can see myself using it!\"\n        }\n    ],\n    \"votes\": 0,\n    \"created\": 1611479256,\n    \"modified\": 1611479256,\n    \"expiry\": 1638316800\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Poll",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/poll/{{POLL_ID}}/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"poll",
+						"{{POLL_ID}}",
+						""
+					]
+				},
+				"description": "Get data for a poll (and its options) by the poll's ID."
+			},
+			"response": [
+				{
+					"name": "Get Poll: Valid request",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/poll/{{POLL_ID}}/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"poll",
+								"{{POLL_ID}}",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 24 Jan 2021 09:08:14 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "462"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "X-Ratelimit-Limit",
+							"value": "10"
+						},
+						{
+							"key": "X-Ratelimit-Remaining",
+							"value": "9"
+						},
+						{
+							"key": "X-Ratelimit-Reset",
+							"value": "1"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"e68a1864-b555-48be-ad6a-d4f740c66559\",\n    \"title\": \"my first poll\",\n    \"description\": \"this is the first poll on yorpoll\",\n    \"options\": [\n        {\n            \"id\": \"3e30fb18-0aa1-4c41-b701-68bde1d98f09\",\n            \"votes\": 0,\n            \"title\": \"This is really cool!\"\n        },\n        {\n            \"id\": \"ac8c68d5-ae69-4682-bed0-b6c9ec5163e2\",\n            \"votes\": 0,\n            \"title\": \"Great work!\"\n        },\n        {\n            \"id\": \"822d5ed8-e585-47d8-a42b-b7d40c5b65f1\",\n            \"votes\": 0,\n            \"title\": \"I can see myself using it!\"\n        }\n    ],\n    \"votes\": 0,\n    \"created\": 1611479256,\n    \"modified\": 1611479256,\n    \"expiry\": 1638316800\n}"
+				},
+				{
+					"name": "Get Poll: Not found",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/poll/{{POLL_ID}}/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"poll",
+								"{{POLL_ID}}",
+								""
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 24 Jan 2021 09:08:32 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "9"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "X-Ratelimit-Limit",
+							"value": "10"
+						},
+						{
+							"key": "X-Ratelimit-Remaining",
+							"value": "9"
+						},
+						{
+							"key": "X-Ratelimit-Reset",
+							"value": "1"
+						}
+					],
+					"cookie": [],
+					"body": "Not Found"
+				}
+			]
+		},
+		{
+			"name": "Delete Poll",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/poll/{{POLL_ID}}/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"poll",
+						"{{POLL_ID}}",
+						""
+					]
+				},
+				"description": "Delete the poll wih the specified poll ID."
+			},
+			"response": [
+				{
+					"name": "Delete Poll: Not found",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/poll/{{POLL_ID}}/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"poll",
+								"{{POLL_ID}}",
+								""
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 24 Jan 2021 09:10:54 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "9"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "X-Ratelimit-Limit",
+							"value": "10"
+						},
+						{
+							"key": "X-Ratelimit-Remaining",
+							"value": "9"
+						},
+						{
+							"key": "X-Ratelimit-Reset",
+							"value": "1"
+						}
+					],
+					"cookie": [],
+					"body": "Not Found"
+				},
+				{
+					"name": "Delete Poll: Accepted",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/poll/{{POLL_ID}}/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"poll",
+								"{{POLL_ID}}",
+								""
+							]
+						}
+					},
+					"status": "Accepted",
+					"code": 202,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 24 Jan 2021 09:11:33 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "8"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "X-Ratelimit-Limit",
+							"value": "10"
+						},
+						{
+							"key": "X-Ratelimit-Remaining",
+							"value": "9"
+						},
+						{
+							"key": "X-Ratelimit-Reset",
+							"value": "1"
+						}
+					],
+					"cookie": [],
+					"body": "Accepted"
+				}
+			]
+		},
+		{
+			"name": "Put Vote",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/vote/{{POLL_ID}}/{{OPTION_ID}}/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"vote",
+						"{{POLL_ID}}",
+						"{{OPTION_ID}}",
+						""
+					]
+				},
+				"description": "Add a vote to the option with the specified option ID belonging to the poll with the specified poll ID."
+			},
+			"response": [
+				{
+					"name": "Put Vote: Accepted",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/vote/{{POLL_ID}}/{{OPTION_ID}}/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"vote",
+								"{{POLL_ID}}",
+								"{{OPTION_ID}}",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 24 Jan 2021 09:12:21 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "X-Ratelimit-Limit",
+							"value": "10"
+						},
+						{
+							"key": "X-Ratelimit-Remaining",
+							"value": "9"
+						},
+						{
+							"key": "X-Ratelimit-Reset",
+							"value": "1"
+						}
+					],
+					"cookie": [],
+					"body": "OK"
+				},
+				{
+					"name": "Put Vote: Not found",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/vote/{{POLL_ID}}/{{OPTION_ID}}/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"vote",
+								"{{POLL_ID}}",
+								"{{OPTION_ID}}",
+								""
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 24 Jan 2021 09:12:42 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "9"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "X-Ratelimit-Limit",
+							"value": "10"
+						},
+						{
+							"key": "X-Ratelimit-Remaining",
+							"value": "9"
+						},
+						{
+							"key": "X-Ratelimit-Reset",
+							"value": "1"
+						}
+					],
+					"cookie": [],
+					"body": "Not Found"
+				}
+			]
+		},
+		{
+			"name": "Healthcheck",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/healthcheck",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"healthcheck"
+					]
+				},
+				"description": "Simple healthcheck endpoint to check that the server is up."
+			},
+			"response": [
+				{
+					"name": "Healthcheck: OK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/healthcheck",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"healthcheck"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 24 Jan 2021 09:12:56 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "X-Ratelimit-Limit",
+							"value": "10"
+						},
+						{
+							"key": "X-Ratelimit-Remaining",
+							"value": "9"
+						},
+						{
+							"key": "X-Ratelimit-Reset",
+							"value": "1"
+						}
+					],
+					"cookie": [],
+					"body": "OK"
+				}
+			]
+		},
+		{
+			"name": "Swagger Documentation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/swagger",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"swagger"
+					]
+				},
+				"description": "View SwaggerUI documentation for the API. Available for dev, testing, and staging environments, but not for Production."
+			},
+			"response": []
+		}
+	]
+}

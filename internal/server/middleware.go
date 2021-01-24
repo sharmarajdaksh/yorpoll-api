@@ -1,6 +1,7 @@
 package server
 
 import (
+	"strings"
 	"time"
 
 	"github.com/sharmarajdaksh/yorpoll-api/internal/log"
@@ -18,7 +19,7 @@ var corsMiddleware = cors.New(cors.Config{
 })
 
 var limiterMiddleware = limiter.New(limiter.Config{
-	Max:        2,
+	Max:        10,
 	Expiration: 1 * time.Second,
 	KeyGenerator: func(c *fiber.Ctx) string {
 		return c.IP()
@@ -37,7 +38,9 @@ func loggerMiddleware(c *fiber.Ctx) error {
 }
 
 func headersMiddleware(c *fiber.Ctx) error {
-	c.Set("Content-Type", "application/json")
+	if !strings.HasPrefix(c.Path(), "/swagger") {
+		c.Set("Content-Type", "application/json")
+	}
 	return c.Next()
 }
 

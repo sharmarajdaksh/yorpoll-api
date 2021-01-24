@@ -13,11 +13,16 @@ import (
 type env string
 
 const (
-	prod  env = "prod"
-	stage env = "stage"
-	test  env = "test"
-	dev   env = "dev"
-	trace env = "trace"
+	// Prod env
+	Prod env = "prod"
+	// Stage env
+	Stage env = "stage"
+	// Test env
+	Test env = "test"
+	// Dev env
+	Dev env = "dev"
+	// Trace enabled env
+	Trace env = "trace"
 )
 
 type database struct {
@@ -73,8 +78,8 @@ func (c Config) ServerAddress() string {
 
 var defaults = Config{
 	Global: global{
-		Env:     dev,
-		Logfile: "log/server.log",
+		Env:     Dev,
+		Logfile: "logs/server.log",
 	},
 	Database: database{
 		Type:        "mysql",
@@ -102,7 +107,7 @@ func envOrDefault(envVariable string, defaultValue string) string {
 }
 
 func getEnvForString(e string) env {
-	envs := []env{dev, trace, test, stage, prod}
+	envs := []env{Dev, Trace, Test, Stage, Prod}
 	for _, env := range envs {
 		if e == string(env) {
 			return env
@@ -114,11 +119,11 @@ func getEnvForString(e string) env {
 
 func setGlobalLogLevel(e env) {
 	envLogLevel := map[env]zerolog.Level{
-		trace: zerolog.TraceLevel,
-		dev:   zerolog.DebugLevel,
-		test:  zerolog.DebugLevel,
-		stage: zerolog.InfoLevel,
-		prod:  zerolog.WarnLevel,
+		Trace: zerolog.TraceLevel,
+		Dev:   zerolog.DebugLevel,
+		Test:  zerolog.DebugLevel,
+		Stage: zerolog.InfoLevel,
+		Prod:  zerolog.WarnLevel,
 	}
 
 	zerolog.SetGlobalLevel(envLogLevel[e])

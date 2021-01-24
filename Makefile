@@ -1,78 +1,62 @@
-PROJECT = yorpoll
-TARGET = bin/$(PROJECT)
-SRC = cmd/$(PROJECT)/main.go
-BIN = $(TARGET)/$(PROJECT)
+.PHONY: logs build run clean db_logs app_logs generate_swagger_json
 
-export ENV = dev
-export LOG_FILE = log/server.log
+PROJECT=yorpoll
+TARGET=bin/$(PROJECT)
+SRC=cmd/$(PROJECT)/main.go
+BIN=$(TARGET)/$(PROJECT)
+SWAGGER_YAML=api/rest/v1/swagger.yaml
+SWAGGER_UI=swaggerui
 
-# export DATABASE_TYPE = mysql
-export DATABASE_TYPE = mongo
-export DATABASE_NAME = $(PROJECT)
-export DATABASE_PORT = 9012
-export DATABASE_HOST = 127.0.0.1
-export DATABASE_USER = mongo
-export DATABASE_PASSWORD = mongopassword
+export ENV=dev
+export LOG_FILE=logs/server.log
 
-export SERVER_HOST = 127.0.0.1
-export SERVER_PORT = 9011
+# Values: mysql, mongo
+export DATABASE_TYPE=mongo
+export DATABASE_PORT=27017
 
-DATABASE_ROOT_PASSWORD = mongorootpassword
-MYSQL_DOCKER_IMAGE = mysql:8.0
-MONGO_DOCKER_IMAGE = mongo:4.4.3-bionic 
-MYSQL_CONTAINER_NAME = $(PROJECT)_mysql
-MONGO_CONTAINER_NAME = $(PROJECT)_mongo
-MONGO_DOCKER_SCRIPT_PATH = scripts/db/mongodb/docker
-MONGO_DOCKER_SCRIPT_NAME = user_init.sh
+export DATABASE_NAME=$(PROJECT)
+export DATABASE_HOST=127.0.0.1
+export DATABASE_USER=mongo
+export DATABASE_PASSWORD=mongopassword
 
-build: $(wilcard **/*.go)
-	mkdir -p $(TARGET) && \
-	go build -o $(BIN) $(SRC)
+export SERVER_HOST=127.0.0.1
+export SERVER_PORT=9011
 
+export DATABASE_ROOT_PASSWORD=mongorootpassword
+export MYSQL_IMAGE_TAG=8.0
+export MONGO_IMAGE_TAG=4.4.3-bionic
+export MONGO_DOCKER_SCRIPT_PATH=scripts/db/mongodb/docker
+export MONGO_DOCKER_SCRIPT_NAME=user_init.sh
 
-run: build db
-	mkdir -p log/ && \
-	chmod +x $(BIN) && \
-	./$(BIN)
-
-clean: rm-db 
-	rm -rf $(TARGET)/*
+SERVER_COMPOSE=docker/docker-compose.server.yml
 
 # Configure the database to use
 ifeq ($(DATABASE_TYPE),mysql)
-db: db-mysql
-rm-db: rm-db-mysql
+DB_COMPOSE=docker/docker-compose.mysql.yml
 endif
 ifeq ($(DATABASE_TYPE),mongo)
-db: db-mongo
-rm-db: rm-db-mongo
+DB_COMPOSE=docker/docker-compose.mongodb.yml
 endif
 
-db-mysql:
-	- docker run \
-		--name $(MYSQL_CONTAINER_NAME) \
-		-e MYSQL_ROOT_PASSWORD=$(DATABASE_ROOT_PASSWORD) \
-		-e MYSQL_DATABASE=$(DATABASE_NAME) \
-		-e MYSQL_USER=$(DATABASE_USER) \
-		-e MYSQL_PASSWORD=$(DATABASE_PASSWORD) \
-		-p $(DATABASE_PORT):3306 \
-		-d $(MYSQL_DOCKER_IMAGE)
+COMPOSE_BASE_COMMAND=docker-compose -f $(SERVER_COMPOSE) -f $(DB_COMPOSE)
 
-rm-db-mysql:
-	- docker rm -f $(MYSQL_CONTAINER_NAME)
+build:
+	$(COMPOSE_BASE_COMMAND) build
 
-db-mongo:
-	- docker run \
-		--name $(MONGO_CONTAINER_NAME) \
-		-e MONGO_INITDB_ROOT_USERNAME=mongoadmin \
-		-e MONGO_INITDB_ROOT_PASSWORD=$(DATABASE_ROOT_PASSWORD) \
-		-e MONGO_INITDB_DATABASE=$(DATABASE_NAME) \
-		-e DATABASE_USER=$(DATABASE_USER) \
-		-e DATABASE_PASSWORD=$(DATABASE_PASSWORD) \
-		--mount type=bind,source="$(shell pwd)/$(MONGO_DOCKER_SCRIPT_PATH)"/$(MONGO_DOCKER_SCRIPT_NAME),target=/docker-entrypoint-initdb.d/$(MONGO_DOCKER_SCRIPT_NAME) \
-		-p $(DATABASE_PORT):27017 \
-		-d $(MONGO_DOCKER_IMAGE)
+run: build
+	$(COMPOSE_BASE_COMMAND) up -d
+	
+clean: 
+	$(COMPOSE_BASE_COMMAND) down
 
+logs:
+	$(COMPOSE_BASE_COMMAND) logs -f
 
-rm-db-mongo:
-	- docker image rm -f $(MONGO_IMAGE_NAME) 
+db_logs:
+	$(COMPOSE_BASE_COMMAND) logs -f db
+
+app_logs:
+	$(COMPOSE_BASE_COMMAND) logs -f app
+
+generate_swagger_json:
+	python3 -c 'import sys, yaml, json; json.dump(yaml.load(sys.stdin), sys.stdout, indent=4)' < api/rest/v1/swagger.yaml | tee swaggerui/swagger.json api/rest/v1/swagger.json

@@ -4,8 +4,17 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/sharmarajdaksh/yorpoll-api/internal/db"
 	"github.com/sharmarajdaksh/yorpoll-api/internal/poll"
 )
+
+func registerV1Routes(r fiber.Router, d db.Connection) {
+	v1Handler := handler{dbc: d}
+	r.Post("/poll", v1Handler.postPoll)
+	r.Get("/poll/:pollID", v1Handler.getPoll)
+	r.Delete("/poll/:pollID", v1Handler.deletePoll)
+	r.Put("/vote/:pollID/:optionID", v1Handler.putVote)
+}
 
 func (h *handler) getPoll(c *fiber.Ctx) error {
 	pollID := c.Params("pollID")

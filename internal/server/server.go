@@ -21,6 +21,10 @@ func Init(c *config.Config, d db.Connection) *fiber.App {
 	healthCheckHandler := handler{dbc: d}
 	app.Get("/healthcheck", healthCheckHandler.healthCheck)
 
+	if c.Global.Env != config.Prod && c.Global.Env != config.Trace {
+		app.Static("/swagger", "swaggerui")
+	}
+
 	api := app.Group("/api")
 
 	v1 := api.Group("/v1")
@@ -30,12 +34,4 @@ func Init(c *config.Config, d db.Connection) *fiber.App {
 	initializeValidator()
 
 	return app
-}
-
-func registerV1Routes(r fiber.Router, d db.Connection) {
-	v1Handler := handler{dbc: d}
-	r.Get("/poll/:pollID", v1Handler.getPoll)
-	r.Post("/poll", v1Handler.postPoll)
-	r.Delete("/poll/:pollID", v1Handler.deletePoll)
-	r.Put("/vote/:pollID/:optionID", v1Handler.putVote)
 }
