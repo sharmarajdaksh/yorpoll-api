@@ -25,4 +25,5 @@ FROM alpine:3.13.0 AS app
 WORKDIR /app
 COPY --from=builder /go/src/app/bin/yorpoll ./yorpoll
 COPY ./scripts /app/scripts
+COPY ./swaggerui /app/swaggerui
 CMD ["./yorpoll"]

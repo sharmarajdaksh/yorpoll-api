@@ -1,26 +1,159 @@
-swagger: "2.0"
+openapi: 3.0.1
 info:
-  description: "Yorpoll is a simple poll-generation API. Because polls should be simple."
-  version: "1.0.0"
-  title: "Yorpoll API"
-  termsOfService: "http://example.com" # TODO
+  title: Yorpoll
+  description: Yorpoll is a simple poll-generation API. Because polls should be simple.
+  version: 1.0.0
+  termsOfService: https://github.com/sharmarajdaksh/yorpoll-api/blob/master/LICENSE
   contact:
-    email: "sharmarajdaksh@gmail.com"
+    email: sharmarajdaksh@gmail.com
   license:
-    name: "Test License" # TODO
-    url: "http://example.com" # TODO
-host: "example.com" # TODO
-basePath: "/"
-# tags:
-schemes:
-- "https"
+    name: MIT
+    url: https://github.com/sharmarajdaksh/yorpoll-api/blob/master/LICENSE
+servers:
+- url: http://127.0.0.1:9011
+  description: Local development URL
+tags:
+- name: poll
+  description: Everything about polls and options
+- name: health
+  description: Ensure that the server can handle requests
+- name: documentation
+  description: Documentation for the API
 paths:
   /healthcheck:
     get:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
+      tags:
+      - health
+      summary: Check that the server is alive
+      operationId: checkServerIsAlive
       responses:
-        "200":
-          description: "Successfully retrieved poll"
+        200:
+          description: The server is alive
+        5XX:
+          description: The server may be down, or under heavy load, or it may be facing connection issues
+  /swagger:
+    get:
+      tags:
+        - documentation
+      summary: Swagger documentation for the API. Available only on non-production environments.
+      operationId: getSwaggerDocumentation
+      responses:
+        200:
+          description: Swagger documentation
+  /api/v1/poll:
+    post:
+      tags:
+      - poll
+      summary: Creates a new poll
+      operationId: createPoll
+      requestBody:
+        description: Data for the new poll to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Poll"
+      responses:
+        201:
+          description: Empty success response 
+        400:
+          description: Bad request empty response
+        5XX:
+          description: An undexpected error occurred. Empty response.
+  /api/v1/poll/{pollId}:
+    get:
+      tags:
+      - poll
+      summary: Get poll with given pollId
+      operationId: getPollById
+      parameters:
+      - name: pollId
+        in: path
+        required: true
+        description: ID for the poll to delete
+        schema:
+          type: string
+      responses:
+        200:
+          description: Poll with the given pollId 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Poll"
+        404:
+          description: Poll with given id does not exist. Empty response.
+        5XX:
+          description: An unexpected error occurred. Empty response.
+    delete:
+      tags:
+      - poll
+      summary: Deletes poll with given pollId
+      operationId: deletePollById
+      parameters:
+      - name: pollId
+        in: path
+        required: true
+        description: ID for the poll to delete
+        schema:
+          type: string
+      responses:
+        202:
+          description: Request for deletion accepted. Empty response.
+        404:
+          description: Poll with given id does not exist. Empty response.
+        5XX:
+          description: An unexpected error occurred. Empty response.
+  /api/v1/poll/{pollId}/{optionId}:
+    put:
+      tags:
+      - poll
+      summary: Adds a vote to the option with specified optionId belonging to the poll with the specified pollId
+      operationId: putVote
+      parameters:
+      - name: pollId
+        in: path
+        required: true
+        description: ID for the poll to which the vote is to be added
+        schema:
+          type: string
+      - name: optionId
+        in: path
+        required: true
+        description: ID for the option to add a vote to 
+        schema:
+          type: string
+      responses:
+        200:
+          description: Vote added. Empty response.
+        404:
+          description: Specified poll and/or option not found. Empty response.
+        423:
+          description: Poll was found but is expired, so the vote cannot be added. Empty response.
+        5XX:
+          description: An unexpected error occurred. Empty response.
+components:
+  schemas:
+    Poll:
+      type: object
+      required: 
+        - title
+        - description
+        - expiry
+        - options
+      properties:
+        title:
+          type: string
+          description: Title for the poll
+        description:
+          type: string
+          description: Description for the poll
+        expiry:
+          type: integer
+          format: int64
+          description: UNIX timestamp (seconds) for when the poll will expire
+        options:
+          description: Options for the poll
+          type: array
+          minLength: 2
+          items:
+            type: string

@@ -1,4 +1,3 @@
 TODOS:
 
-- swagger spec
 - tests

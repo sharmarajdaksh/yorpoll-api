@@ -10,8 +10,8 @@ import (
 
 func registerV1Routes(r fiber.Router, d db.Connection) {
 	v1Handler := handler{dbc: d}
-	r.Get("/poll/:pollID", v1Handler.getPoll)
 	r.Post("/poll", v1Handler.postPoll)
+	r.Get("/poll/:pollID", v1Handler.getPoll)
 	r.Delete("/poll/:pollID", v1Handler.deletePoll)
 	r.Put("/vote/:pollID/:optionID", v1Handler.putVote)
 }
