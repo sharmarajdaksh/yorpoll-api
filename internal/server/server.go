@@ -14,8 +14,9 @@ func Init(c *config.Config, d db.Connection) *fiber.App {
 
 	app.Use(corsMiddleware)
 	app.Use(limiterMiddleware)
-	app.Use(loggerMiddleware)
+	app.Use(requestIDMiddleware)
 	app.Use(headersMiddleware)
+	app.Use(loggerMiddleware)
 
 	healthCheckHandler := handler{dbc: d}
 	app.Get("/healthcheck", healthCheckHandler.healthCheck)
