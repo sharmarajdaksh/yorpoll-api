@@ -2,4 +2,4 @@
 ./log/*
 ./.git
 ./README.md
-docker/
+./docke/

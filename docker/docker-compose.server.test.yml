@@ -1,16 +1,11 @@
 version: "3.4"
 
 services:
-  app:
+  app_test:
     build:
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile.test
       context: ../
-      target: app
-    container_name: yorpoll_app
-    volumes:
-      - type: bind
-        source: ../logs
-        target: /app/logs
+    container_name: yorpoll_app_test
     environment:
       - SERVER_PORT=${SERVER_PORT}
       - SERVER_HOST=0.0.0.0
@@ -26,5 +21,4 @@ services:
       - "${SERVER_PORT}:${SERVER_PORT}"
     depends_on:
       - db
-    restart: always
 
