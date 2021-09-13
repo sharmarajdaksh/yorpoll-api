@@ -12,8 +12,9 @@ export ENV=dev
 export LOG_FILE=logs/server.log
 
 # Values: mysql, mongo
-export DATABASE_TYPE=mongo
-export DATABASE_PORT=27017
+export DATABASE_TYPE=mysql
+# Use 27017 for mongo, 3306 for mysql
+export DATABASE_PORT=3306
 
 export DATABASE_NAME=$(PROJECT)
 export DATABASE_HOST=127.0.0.1

@@ -21,4 +21,5 @@ services:
       - "${SERVER_PORT}:${SERVER_PORT}"
     depends_on:
       - db
+    restart: on-failure
 

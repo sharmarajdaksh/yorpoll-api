@@ -13,5 +13,6 @@ require (
 	github.com/rs/zerolog v1.20.0
 	github.com/sirupsen/logrus v1.7.0
 	go.mongodb.org/mongo-driver v1.4.4
+	gotest.tools v2.2.0+incompatible
 	honnef.co/go/tools v0.1.0
 )

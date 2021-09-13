@@ -1,8 +1,8 @@
 package config
 
 const (
-	envEnv  = "ENV"
-	logFile = "LOG_FILE"
+	envEnv     = "ENV"
+	envLogFile = "LOG_FILE"
 
 	envDatabaseType        = "DATABASE_TYPE"         // Database type string: mysql
 	envDatabaseHost        = "DATABASE_HOST"         // Database hostname string

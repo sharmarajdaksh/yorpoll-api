@@ -68,7 +68,7 @@ func (c Config) DbType() string {
 
 // LogFileName returns the name of the file to writes logs to
 func LogFileName() string {
-	return envOrDefault(logFile, defaults.Global.Logfile)
+	return envOrDefault(envLogFile, defaults.Global.Logfile)
 }
 
 // ServerAddress returns the address to listen on
@@ -131,7 +131,7 @@ func setGlobalLogLevel(e env) {
 
 func (global) loadConfig() (global, error) {
 	env := getEnvForString(envOrDefault(envEnv, string(defaults.Global.Env)))
-	logf := envOrDefault(logFile, defaults.Global.Logfile)
+	logf := envOrDefault(envLogFile, defaults.Global.Logfile)
 
 	return global{Env: env, Logfile: logf}, nil
 }
